@@ -3,6 +3,7 @@ package com.hencoder.hencoderpracticedraw7.practice.practice02;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -51,7 +52,17 @@ public class Practice02HsvEvaluatorLayout extends RelativeLayout {
         // 重写 evaluate() 方法，让颜色按照 HSV 来变化
         @Override
         public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-            return startValue;
+            float[] colorStart = new float[3];
+            float[] colorEnd = new float[3];
+            Color.colorToHSV(startValue, colorStart);
+            Color.colorToHSV(endValue, colorEnd);
+
+
+            colorStart[0] = colorStart[0] + ((colorEnd[0] - colorStart[0]) * fraction);
+            colorStart[1] = colorStart[1] + ((colorEnd[1] - colorStart[1]) * fraction);
+            colorStart[2] = colorStart[2] + ((colorEnd[2] - colorStart[2]) * fraction);
+
+            return Color.HSVToColor(colorStart);
         }
     }
 }
